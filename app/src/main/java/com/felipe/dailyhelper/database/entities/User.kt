@@ -8,7 +8,9 @@ import androidx.room.PrimaryKey
 data class User(
     var name: String = "",
     var username: String = "",
-    var password: String = ""
+    var password: String = "",
+    var email: String = "",
+    var phone: String = ""
 ) {
 
     @PrimaryKey(autoGenerate = true)
