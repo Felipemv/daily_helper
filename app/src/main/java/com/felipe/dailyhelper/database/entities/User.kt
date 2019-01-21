@@ -16,6 +16,4 @@ data class User(
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 
-    @ColumnInfo
-    var online: Boolean = false
 }

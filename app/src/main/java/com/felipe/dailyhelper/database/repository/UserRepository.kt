@@ -35,8 +35,8 @@ class UserRepository(context: Context) {
         return (userDao.exists(username) != null)
     }
 
-    fun find(): User? {
-        return userDao.find()
+    fun find(id: Int): User? {
+        return userDao.find(id)
     }
 
     fun update(user: User) {
@@ -47,24 +47,12 @@ class UserRepository(context: Context) {
         return userDao.delete(id)
     }
 
-    fun login(username: String, password: String): Boolean {
-        val user = userDao.login(username, password)
-        if (user != null) {
-            user.online = true
-            userDao.update(user)
-            return true
-        }
-        return false
+    fun login(username: String, password: String): User? {
+        return userDao.login(username, password)
     }
 
-    fun logout(): Boolean {
-        val user = userDao.find()
-        if (user != null) {
-            user.online = false
-            userDao.update(user)
-            return true
-        }
-        return false
+    fun logout(id: Int): Boolean {
+        return userDao.find(id) != null
     }
 
 }

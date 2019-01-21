@@ -43,6 +43,15 @@
                 android:inputType="textPassword"/>
     </com.google.android.material.textfield.TextInputLayout>
 
+    <CheckBox
+            android:id="@+id/cb_keep_logged_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/keep_logged_in"
+            android:textColor="@color/colorWhite">
+
+    </CheckBox>
+
     <TextView
             android:id="@+id/tv_invalid_user_password"
             android:layout_width="match_parent"
@@ -50,7 +59,8 @@
             android:text="@string/invalid_user_or_password"
             android:textAlignment="center"
             android:visibility="invisible"
-            android:textColor="@color/colorError">
+            android:textColor="@color/colorError"
+            android:layout_marginTop="20dp">
 
     </TextView>
 

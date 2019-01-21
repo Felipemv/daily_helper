@@ -56,23 +56,23 @@ class CreateAccountActivity : AppCompatActivity() {
         }
         etFullName.addTextChangedListener({ _: CharSequence?, _: Int, _: Int, _: Int ->
             layoutFullName.isErrorEnabled = false
-            tvError.visibility = View.GONE
+            tvError.visibility = View.INVISIBLE
         })
         etUsername.addTextChangedListener({ _: CharSequence?, _: Int, _: Int, _: Int ->
             layoutUsername.isErrorEnabled = false
-            tvError.visibility = View.GONE
+            tvError.visibility = View.INVISIBLE
         })
         etPassword.addTextChangedListener({ _: CharSequence?, _: Int, _: Int, _: Int ->
             layoutPassword.isErrorEnabled = false
-            tvError.visibility = View.GONE
+            tvError.visibility = View.INVISIBLE
         })
         etEmail.addTextChangedListener({ _: CharSequence?, _: Int, _: Int, _: Int ->
             layoutEmail.isErrorEnabled = false
-            tvError.visibility = View.GONE
+            tvError.visibility = View.INVISIBLE
         })
         etPhone.addTextChangedListener({ _: CharSequence?, _: Int, _: Int, _: Int ->
             layoutPhone.isErrorEnabled = false
-            tvError.visibility = View.GONE
+            tvError.visibility = View.INVISIBLE
         })
     }
 

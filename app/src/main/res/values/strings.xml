@@ -33,4 +33,5 @@
     <string name="phone">Phone</string>
     <string name="sign_up">Sign Up</string>
     <string name="account_already_exists">Account already exists</string>
+    <string name="keep_logged_in">Keep Logged In</string>
 </resources>

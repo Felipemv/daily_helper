@@ -12,8 +12,8 @@ interface UserDao {
     @Insert
     fun insert(user: User)
 
-    @Query("SELECT * FROM user WHERE online = 1")
-    fun find(): User?
+    @Query("SELECT * FROM user WHERE id = :id")
+    fun find(id: Int): User?
 
     @Query("SELECT * FROM user WHERE username = :username")
     fun exists(username: String): User?
