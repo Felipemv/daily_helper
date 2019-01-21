@@ -13,7 +13,7 @@ import com.felipe.dailyhelper.database.repository.UserRepository
 
 class SplashActivity : AppCompatActivity(), Runnable {
 
-    private val DELAY = 3000L
+    private val DELAY = 500L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
