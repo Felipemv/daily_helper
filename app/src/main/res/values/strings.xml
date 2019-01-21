@@ -34,4 +34,5 @@
     <string name="sign_up">Sign Up</string>
     <string name="account_already_exists">Account already exists</string>
     <string name="keep_logged_in">Keep Logged In</string>
+    <string name="logout">Logout</string>
 </resources>
