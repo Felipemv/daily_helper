@@ -34,14 +34,15 @@ class SplashActivity : AppCompatActivity(), Runnable {
             createAccount.visibility = View.VISIBLE
             createAccount.setOnClickListener {
                 startActivity(Intent(this, CreateAccountActivity::class.java))
+                finish()
             }
 
             val login = findViewById<Button>(R.id.btn_login)
             login.visibility = View.VISIBLE
             login.setOnClickListener {
                 startActivity(Intent(this, LoginActivity::class.java))
+                finish()
             }
-
         }
 
     }

@@ -1,6 +1,7 @@
 package com.felipe.dailyhelper.acitivities
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -34,7 +35,8 @@ class LoginActivity : Activity() {
             val password = etPassword.text.toString()
             if (validateUser(user, password)) {
                 if (UserRepository.getInstance(this).login(user, password)) {
-
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finish()
                 } else {
                     tvError.visibility = View.VISIBLE
                 }

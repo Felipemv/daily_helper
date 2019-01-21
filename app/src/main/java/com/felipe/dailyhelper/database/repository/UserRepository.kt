@@ -31,6 +31,10 @@ class UserRepository(context: Context) {
         userDao.insert(user)
     }
 
+    fun exists(username: String): Boolean {
+        return (userDao.exists(username) != null)
+    }
+
     fun find(): User? {
         return userDao.find()
     }

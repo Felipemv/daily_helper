@@ -28,4 +28,9 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="invalid_user_or_password">Invalid user or password</string>
+    <string name="full_name">Full Name</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="account_already_exists">Account already exists</string>
 </resources>

@@ -15,6 +15,9 @@ interface UserDao {
     @Query("SELECT * FROM user WHERE online = 1")
     fun find(): User?
 
+    @Query("SELECT * FROM user WHERE username = :username")
+    fun exists(username: String): User?
+
     @Query("DELETE FROM user WHERE id = :id")
     fun delete(id: Int)
 
