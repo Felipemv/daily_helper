@@ -10,10 +10,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.felipe.dailyhelper.R
+import com.felipe.dailyhelper.database.repository.UserRepository
 import com.felipe.dailyhelper.util.PreferencesUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -22,6 +24,8 @@ import kotlinx.android.synthetic.main.nav_header_main.*
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private lateinit var navigationController: NavController
+
+    private var userId: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -118,13 +122,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun setUser(headerView: View) {
-        //Carrega usuário do banco de dados aqui.
+        userId = PreferencesUtil(this).userId
+        val user = UserRepository.getInstance(this).find(userId)
 
-        val name = "Felipe Martins"
-        val username = "felipevitor"
-
-        headerView.findViewById<TextView>(R.id.nav_header_tv_name).text = name
-        headerView.findViewById<TextView>(R.id.nav_header_tv_username).text = username
+        if (user != null) {
+            headerView.findViewById<TextView>(R.id.nav_header_tv_name).text = user.name
+            headerView.findViewById<TextView>(R.id.nav_header_tv_username).text = user.username
+        } else {
+            Toast.makeText(this, "Could not load user", Toast.LENGTH_SHORT).show()
+        }
     }
 
 }
