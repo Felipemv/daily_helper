@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
@@ -19,24 +20,42 @@
             android:padding="20dp"/>
 
     <com.google.android.material.textfield.TextInputLayout
-            style="@style/TextInputLayout">
+            android:id="@+id/input_layout_username"
+            style="@style/TextInputLayout"
+            app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_edit_text_username"
                 style="@style/TextInputEditText"
-                android:hint="Username"
+                android:hint="@string/username"
                 android:inputType="text"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-            style="@style/TextInputLayout">
+            android:id="@+id/input_layout_password"
+            style="@style/TextInputLayout"
+            app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_edit_text_password"
                 style="@style/TextInputEditText"
-                android:hint="Password"
+                android:hint="@string/password"
                 android:inputType="textPassword"/>
     </com.google.android.material.textfield.TextInputLayout>
 
+    <TextView
+            android:id="@+id/tv_invalid_user_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/invalid_user_or_password"
+            android:textAlignment="center"
+            android:visibility="invisible"
+            android:textColor="@color/colorError">
+
+    </TextView>
+
     <Button
+            android:id="@+id/login"
             style="@style/Button"
-            android:text="Login"/>
+            android:text="@string/enter"/>
 </LinearLayout>
