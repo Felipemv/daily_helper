@@ -68,15 +68,14 @@
                         <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Name"
-                                android:layout_gravity="center"
+                                android:text="@string/name"
                                 android:textAlignment="center"/>
 
                         <TextView
                                 android:id="@+id/tv_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Name"/>
+                                android:text="@string/name"/>
 
                     </LinearLayout>
 
@@ -108,15 +107,14 @@
                         <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Username"
-                                android:layout_gravity="center"
+                                android:text="@string/username"
                                 android:textAlignment="center"/>
 
                         <TextView
                                 android:id="@+id/tv_username"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Username"/>
+                                android:text="@string/username"/>
 
                     </LinearLayout>
                 </LinearLayout>
@@ -147,15 +145,14 @@
                         <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Email"
-                                android:layout_gravity="center"
+                                android:text="@string/email"
                                 android:textAlignment="center"/>
 
                         <TextView
                                 android:id="@+id/tv_email"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Email"/>
+                                android:text="@string/email"/>
 
                     </LinearLayout>
                 </LinearLayout>
@@ -186,15 +183,13 @@
                         <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Phone"
-                                android:layout_gravity="center"
-                                android:textAlignment="center"/>
+                                android:text="@string/phone"/>
 
                         <TextView
                                 android:id="@+id/tv_phone"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Phone"/>
+                                android:text="@string/phone"/>
 
                     </LinearLayout>
                 </LinearLayout>
