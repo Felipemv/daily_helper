@@ -5,6 +5,7 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +16,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.felipe.dailyhelper.R
+import com.felipe.dailyhelper.database.entities.WorkLog
+import com.felipe.dailyhelper.database.repository.WorkLogRepository
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.sql.Date
+import java.text.SimpleDateFormat
 import java.util.*
 
 class WorkFragment : Fragment() {
@@ -24,6 +29,12 @@ class WorkFragment : Fragment() {
     private lateinit var fabNewWorkLog: FloatingActionButton
     private lateinit var tvDate: TextView
     private lateinit var tvTime: TextView
+
+    private val DATE_FORMAT = "dd/mm/yyyy"
+    private val TIME_FORMAT = "hh:mm:ss"
+    private val TIME_ZONE = Calendar.getInstance().timeZone.rawOffset
+    private val HOUR_IN_MILLIS = 60 * 60 * 1000
+    private val SUMMER_TIME = 1 * HOUR_IN_MILLIS
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,10 +72,10 @@ class WorkFragment : Fragment() {
             val builder = AlertDialog.Builder(context!!)
             builder.setView(view)
             builder.setPositiveButton("Create") { _, _ ->
-                Toast.makeText(context!!, "oaisjdfoia", Toast.LENGTH_SHORT).show()
+                registerFirstIn(tvDate.text.toString(), tvTime.text.toString())
             }
-            builder.setNegativeButton("Cancel") { _, _ ->
-                Toast.makeText(context!!, "asdfasdf", Toast.LENGTH_SHORT).show()
+            builder.setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
             }
 
             val dialog = builder.create()
@@ -132,7 +143,7 @@ class WorkFragment : Fragment() {
         var hour1 = hour
         var minutes1 = minutes
 
-        if (hour == -1 || minutes == -1 ) {
+        if (hour == -1 || minutes == -1) {
             hour1 = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
             minutes1 = Calendar.getInstance().get(Calendar.MINUTE)
         }
@@ -141,5 +152,16 @@ class WorkFragment : Fragment() {
         var m = if (minutes1 < 10) "0$minutes1" else minutes1
 
         return "$h:$m"
+    }
+
+    private fun registerFirstIn(date: String, time: String) {
+        val dateFormat = SimpleDateFormat(DATE_FORMAT, Locale.forLanguageTag("pt-br"))
+        val timeFormat = SimpleDateFormat(TIME_FORMAT, Locale.forLanguageTag("pt-br"))
+
+        val d = dateFormat.parse(date).time + TIME_ZONE + SUMMER_TIME
+        val t = timeFormat.parse("$time:00").time + d - HOUR_IN_MILLIS
+
+        var workLog = WorkLog(d, t)
+        WorkLogRepository.getInstance(context!!).logFirstIn(workLog)
     }
 }
