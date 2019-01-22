@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:padding="16dp"
+              android:background="@color/colorPrimary">
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add new Work Log"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:layout_marginBottom="20dp"
+            android:textColor="@color/colorWhite"/>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="10"
+            android:gravity="center">
+
+        <LinearLayout android:layout_width="0dp"
+                      android:layout_height="wrap_content"
+                      android:layout_weight="9">
+            <TextView
+                    style="@style/TextViewDateChooser"
+                    android:text="Date: "/>
+
+            <TextView
+                    android:id="@+id/tv_date"
+                    style="@style/TextViewDateChooser"
+                    android:text="Date: "
+            />
+        </LinearLayout>
+
+        <ImageButton
+                android:id="@+id/ib_choose_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_calendar"
+                android:layout_weight="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="10"
+            android:gravity="center">
+
+        <LinearLayout android:layout_width="0dp"
+                      android:layout_height="wrap_content"
+                      android:layout_weight="9">
+            <TextView
+                    style="@style/TextViewDateChooser"
+                    android:text="Time: "/>
+
+            <TextView
+                    android:id="@+id/tv_time"
+                    style="@style/TextViewDateChooser"
+                    android:text="Time: "/>
+        </LinearLayout>
+
+        <ImageButton
+                android:id="@+id/ib_choose_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_time"
+                android:layout_weight="1"/>
+    </LinearLayout>
+
+</LinearLayout>

@@ -2,8 +2,10 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              xmlns:app="http://schemas.android.com/apk/res-auto"
-             android:layout_width="match_parent" android:layout_height="match_parent"
-             tools:context=".fragments.WorkFragment">
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context=".fragments.WorkFragment"
+             android:background="@color/colorPrimary">
 
     <TextView
             android:id="@+id/tv_no_work_log"
@@ -11,6 +13,18 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="@string/no_work_log_found"/>
+            android:text="@string/no_work_log_found"
+            android:visibility="gone"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_add_new_work_log"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="25dp"
+            android:backgroundTint="@color/colorSecondary"
+            android:src="@drawable/ic_add_new"
+            app:rippleColor="@color/colorSecondaryDark"
+            app:borderWidth="0dp"/>
 
 </FrameLayout>
