@@ -40,4 +40,5 @@
     <string name="log_work">Log Work</string>
     <string name="history">History</string>
     <string name="salary">Salary</string>
+    <string name="no_work_log_found">No work log found.</string>
 </resources>

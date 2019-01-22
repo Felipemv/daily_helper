@@ -3,12 +3,11 @@ package com.felipe.dailyhelper.database.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.*
 
 @Entity(tableName = "work_log")
 data class WorkLog(
 
-    var date: Date,
+    var date: Long,
 
     @ColumnInfo(name = "first_in")
     var firstIn: Long
