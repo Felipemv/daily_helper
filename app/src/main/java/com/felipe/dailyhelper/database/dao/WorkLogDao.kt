@@ -1,5 +1,6 @@
 package com.felipe.dailyhelper.database.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -25,7 +26,7 @@ interface WorkLogDao {
     fun find(id: Int): WorkLog?
 
     @Query("SELECT * FROM work_log")
-    fun findAll(): List<WorkLog>
+    fun findAll(): LiveData<List<WorkLog>>
 
     @Update
     fun update(workLog: WorkLog)

@@ -1,6 +1,7 @@
 package com.felipe.dailyhelper.database.repository
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import com.felipe.dailyhelper.database.JDatabase
 import com.felipe.dailyhelper.database.dao.WorkLogDao
 import com.felipe.dailyhelper.database.entities.WorkLog
@@ -47,7 +48,7 @@ class WorkLogRepository(context: Context) {
         return workLogDao.find(id)
     }
 
-    fun findAll(): List<WorkLog> {
+    fun findAll(): LiveData<List<WorkLog>> {
         return workLogDao.findAll()
     }
 

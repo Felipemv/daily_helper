@@ -1,6 +1,5 @@
 package com.felipe.dailyhelper.fragments
 
-
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
@@ -12,18 +11,22 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.TimePicker
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.felipe.dailyhelper.R
 import com.felipe.dailyhelper.database.entities.WorkLog
 import com.felipe.dailyhelper.database.repository.WorkLogRepository
+import com.felipe.dailyhelper.viewmodel.WorkLogListViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import java.sql.Date
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 
 class WorkFragment : Fragment() {
+
+    private lateinit var viewModel: WorkLogListViewModel
 
     private lateinit var tvNoWorkLog: TextView
     private lateinit var fabNewWorkLog: FloatingActionButton
@@ -36,6 +39,11 @@ class WorkFragment : Fragment() {
     private val HOUR_IN_MILLIS = 60 * 60 * 1000
     private val SUMMER_TIME = 1 * HOUR_IN_MILLIS
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = ViewModelProviders.of(this).get(WorkLogListViewModel::class.java)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,16 +51,33 @@ class WorkFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_work, container, false)
 
         initComponents(view)
+        viewModel.getWorkLogList().observe(this, Observer<List<WorkLog>> { workLogs ->
+            workLogs?.let {
+                populateWorkLogList(workLogs)
+            }
+        })
 
         return view
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        val workLogRepository = WorkLogRepository.getInstance(context!!)
+        workLogRepository.findAll().observe(this, Observer { workLogList ->
+            populateWorkLogList(workLogList!!)
+        })
+    }
 
     private fun initComponents(view: View) {
         tvNoWorkLog = view.findViewById(R.id.tv_no_work_log)
         fabNewWorkLog = view.findViewById(R.id.fab_add_new_work_log)
 
         fabNewWorkLog.setOnClickListener(addNewWorkLog())
+    }
+
+    private fun populateWorkLogList(workLogList: List<WorkLog>) {
+
     }
 
     private fun addNewWorkLog(): View.OnClickListener {
@@ -161,7 +186,7 @@ class WorkFragment : Fragment() {
         val d = dateFormat.parse(date).time + TIME_ZONE + SUMMER_TIME
         val t = timeFormat.parse("$time:00").time + d - HOUR_IN_MILLIS
 
-        var workLog = WorkLog(d, t)
+        val workLog = WorkLog(d, t)
         WorkLogRepository.getInstance(context!!).logFirstIn(workLog)
     }
 }
