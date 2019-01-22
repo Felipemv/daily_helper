@@ -15,7 +15,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
 import com.felipe.dailyhelper.R
+import com.felipe.dailyhelper.adapters.WorkLogAdapter
 import com.felipe.dailyhelper.database.entities.WorkLog
 import com.felipe.dailyhelper.database.repository.WorkLogRepository
 import com.felipe.dailyhelper.viewmodel.WorkLogListViewModel
@@ -23,15 +25,20 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import androidx.recyclerview.widget.LinearLayoutManager
+
 
 class WorkFragment : Fragment() {
 
     private lateinit var viewModel: WorkLogListViewModel
 
+    private lateinit var adapter: WorkLogAdapter
+
     private lateinit var tvNoWorkLog: TextView
     private lateinit var fabNewWorkLog: FloatingActionButton
     private lateinit var tvDate: TextView
     private lateinit var tvTime: TextView
+    private lateinit var recyclerView: RecyclerView
 
     private val DATE_FORMAT = "dd/mm/yyyy"
     private val TIME_FORMAT = "hh:mm:ss"
@@ -72,12 +79,20 @@ class WorkFragment : Fragment() {
     private fun initComponents(view: View) {
         tvNoWorkLog = view.findViewById(R.id.tv_no_work_log)
         fabNewWorkLog = view.findViewById(R.id.fab_add_new_work_log)
+        recyclerView = view.findViewById(R.id.rv_work_log)
 
         fabNewWorkLog.setOnClickListener(addNewWorkLog())
+
+        val llm = LinearLayoutManager(context)
+        llm.orientation = RecyclerView.VERTICAL
+
+        adapter = WorkLogAdapter(ArrayList())
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = llm
     }
 
     private fun populateWorkLogList(workLogList: List<WorkLog>) {
-
+        adapter.notifyDataSetChanged()
     }
 
     private fun addNewWorkLog(): View.OnClickListener {
