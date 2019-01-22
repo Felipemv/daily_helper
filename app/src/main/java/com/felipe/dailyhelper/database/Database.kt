@@ -5,12 +5,14 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.felipe.dailyhelper.database.dao.UserDao
+import com.felipe.dailyhelper.database.dao.WorkLogDao
 import com.felipe.dailyhelper.database.entities.User
 
 @Database(entities = [User::class], version = 1)
 abstract class JDatabase : RoomDatabase() {
 
     abstract fun getUserDao(): UserDao
+    abstract fun getWorkLogDao(): WorkLogDao
 
     companion object {
         private val lock = Any()
