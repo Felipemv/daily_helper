@@ -8,4 +8,6 @@
               android:label="Profile" tools:layout="@layout/fragment_profile"/>
     <fragment android:id="@+id/homeFragment" android:name="com.felipe.dailyhelper.fragments.HomeFragment"
               android:label="Daily Helper" tools:layout="@layout/fragment_home"/>
+    <fragment android:id="@+id/workFragment" android:name="com.felipe.dailyhelper.fragments.WorkFragment"
+              android:label="Work" tools:layout="@layout/fragment_work"/>
 </navigation>

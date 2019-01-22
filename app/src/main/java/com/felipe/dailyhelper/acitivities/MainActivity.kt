@@ -71,9 +71,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 //            R.id.nav_share -> {
 //
 //            }
-//            R.id.nav_send -> {
-//
-//            }
+            R.id.nav_work -> {
+                navigationController.navigate(R.id.workFragment)
+                drawer_layout.closeDrawer(GravityCompat.START)
+            }
             R.id.nav_logout -> {
                 PreferencesUtil(this).userId = -1
                 PreferencesUtil(this).username = ""
