@@ -56,25 +56,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-//            R.id.nav_camera -> {
-//                // Handle the camera action
-//            }
-//            R.id.nav_gallery -> {
-//
-//            }
-//            R.id.nav_slideshow -> {
-//
-//            }
-//            R.id.nav_manage -> {
-//
-//            }
-//            R.id.nav_share -> {
-//
-//            }
-            R.id.nav_work -> {
+            R.id.nav_history -> {
+                navigationController.navigate(R.id.historyFragment)
+                drawer_layout.closeDrawer(GravityCompat.START)
+            }
+
+            R.id.nav_log_work -> {
                 navigationController.navigate(R.id.workFragment)
                 drawer_layout.closeDrawer(GravityCompat.START)
             }
+
+            R.id.nav_salary -> {
+                navigationController.navigate(R.id.salaryFragment)
+                drawer_layout.closeDrawer(GravityCompat.START)
+            }
+
             R.id.nav_logout -> {
                 PreferencesUtil(this).userId = -1
                 PreferencesUtil(this).username = ""

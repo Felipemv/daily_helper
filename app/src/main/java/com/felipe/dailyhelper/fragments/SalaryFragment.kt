@@ -1,28 +1,22 @@
 package com.felipe.dailyhelper.fragments
 
-
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.felipe.dailyhelper.R
 
-class WorkFragment : Fragment() {
+
+class SalaryFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_work, container, false)
-
-        initComponents(view)
-
-        return view
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_salary, container, false)
     }
 
 
-    private fun initComponents(view: View) {
-
-    }
 }

@@ -37,4 +37,7 @@
     <string name="logout">Logout</string>
     <string name="name">Name</string>
     <string name="work">Work</string>
+    <string name="log_work">Log Work</string>
+    <string name="history">History</string>
+    <string name="salary">Salary</string>
 </resources>

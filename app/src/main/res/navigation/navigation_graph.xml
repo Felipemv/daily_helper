@@ -10,4 +10,8 @@
               android:label="Daily Helper" tools:layout="@layout/fragment_home"/>
     <fragment android:id="@+id/workFragment" android:name="com.felipe.dailyhelper.fragments.WorkFragment"
               android:label="Work" tools:layout="@layout/fragment_work"/>
+    <fragment android:id="@+id/historyFragment" android:name="com.felipe.dailyhelper.fragments.HistoryFragment"
+              android:label="History" tools:layout="@layout/fragment_history"/>
+    <fragment android:id="@+id/salaryFragment" android:name="com.felipe.dailyhelper.fragments.SalaryFragment"
+              android:label="Salary" tools:layout="@layout/fragment_salary"/>
 </navigation>

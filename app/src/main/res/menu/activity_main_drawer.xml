@@ -35,18 +35,36 @@
     <!--</menu>-->
     <!--</item>-->
 
-    <group android:checkableBehavior="single">
+    <group
+            android:id="@+id/menu_work">
 
-        <item
-            android:id="@+id/nav_work"
-            android:icon="@drawable/ic_work"
-            android:title="@string/work"/>
+        <item android:title="@string/work">
+            <menu>
 
+                <item
+                        android:id="@+id/nav_history"
+                        android:icon="@drawable/ic_history"
+                        android:title="@string/history"/>
+
+                <item
+                        android:id="@+id/nav_log_work"
+                        android:icon="@drawable/ic_work"
+                        android:title="@string/log_work"/>
+
+                <item
+                        android:id="@+id/nav_salary"
+                        android:icon="@drawable/ic_salary"
+                        android:title="@string/salary"/>
+            </menu>
+        </item>
+    </group>
+
+
+    <group
+            android:id="@+id/menu_logout">
         <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/ic_logout"
                 android:title="@string/logout"/>
     </group>
-
-
 </menu>
