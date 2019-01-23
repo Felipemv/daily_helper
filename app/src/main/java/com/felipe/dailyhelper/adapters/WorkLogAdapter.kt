@@ -34,11 +34,15 @@ class WorkLogAdapter(workLogs: List<WorkLog>, workLogClickListener: OnItemClicke
         holder.tvLunchTime.text = DateUtil.timeLongToString(workLogList[position].lunchTime)
 
         holder.layoutEdit.setOnClickListener {
-            listener.onWorkLogClick(WorkFragment.BUTTON_EDIT, workLogList[position].id)
+            listener.onWorkLogClick(WorkFragment.BUTTON_EDIT, workLogList[position])
         }
 
         holder.layoutFinish.setOnClickListener {
-            listener.onWorkLogClick(WorkFragment.BUTTON_FINISH, workLogList[position].id)
+            listener.onWorkLogClick(WorkFragment.BUTTON_FINISH, workLogList[position])
+        }
+
+        holder.layoutLogWork.setOnClickListener{
+            listener.onWorkLogClick(WorkFragment.LAYOUT, workLogList[position])
         }
     }
 

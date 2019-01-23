@@ -41,13 +41,22 @@ class WorkFragment : Fragment(), Observer<List<WorkLog>>,
 
     private lateinit var tvNoWorkLog: TextView
     private lateinit var fabNewWorkLog: FloatingActionButton
+    private lateinit var tvTitle: TextView
     private lateinit var tvDate: TextView
     private lateinit var tvTime: TextView
+    private lateinit var ibChooseDate: ImageButton
+    private lateinit var ibChooseTime: ImageButton
     private lateinit var recyclerView: RecyclerView
 
     companion object {
         const val BUTTON_FINISH = 1
         const val BUTTON_EDIT = 2
+        const val LAYOUT = 3
+
+        const val MORNING_IN = 1
+        const val MORNING_OUT = 2
+        const val AFTERNOON_IN = 3
+        const val AFTERNOON_OUT = 4
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,10 +88,10 @@ class WorkFragment : Fragment(), Observer<List<WorkLog>>,
     }
 
     override fun onChanged(list: List<WorkLog>?) {
-        if(list == null || list.isEmpty()){
+        if (list == null || list.isEmpty()) {
             recyclerView.visibility = View.GONE
             tvNoWorkLog.visibility = View.VISIBLE
-        }else{
+        } else {
             recyclerView.visibility = View.VISIBLE
             tvNoWorkLog.visibility = View.GONE
             populateWorkLogList(list)
@@ -90,10 +99,22 @@ class WorkFragment : Fragment(), Observer<List<WorkLog>>,
 
     }
 
-    override fun onWorkLogClick(component: Int, id: Int) {
-        when (component) {
+    override fun onWorkLogClick(id: Int, workLog: WorkLog) {
+        when (id) {
             BUTTON_FINISH -> {
-                getWorkLogRepository().setDone(id)
+                getWorkLogRepository().setDone(workLog.id)
+            }
+
+            LAYOUT -> {
+                if (workLog.firstIn == 0L) {
+                    Toast.makeText(context!!, "Um erro ocorreu", Toast.LENGTH_SHORT).show()
+                } else if (workLog.firstOut == 0L) {
+                    setUpWorkLogDialog(MORNING_OUT, workLog)
+                } else if (workLog.secondIn == 0L) {
+                    setUpWorkLogDialog(AFTERNOON_IN, workLog)
+                } else {
+                    setUpWorkLogDialog(AFTERNOON_OUT, workLog)
+                }
             }
         }
     }
@@ -103,7 +124,7 @@ class WorkFragment : Fragment(), Observer<List<WorkLog>>,
         fabNewWorkLog = view.findViewById(R.id.fab_add_new_work_log)
         recyclerView = view.findViewById(R.id.rv_work_log)
 
-        fabNewWorkLog.setOnClickListener(addNewWorkLog())
+        fabNewWorkLog.setOnClickListener { setUpWorkLogDialog(MORNING_IN) }
     }
 
     private fun getWorkLogRepository(): WorkLogRepository {
@@ -124,32 +145,82 @@ class WorkFragment : Fragment(), Observer<List<WorkLog>>,
         }
     }
 
-    private fun addNewWorkLog(): View.OnClickListener {
-        return View.OnClickListener {
+    private fun setUpWorkLogDialog(operation: Int, workLog: WorkLog? = null) {
+        val inflater = context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = inflater.inflate(R.layout.layout_new_work_log, null)
 
-            val inflater = context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            val view = inflater.inflate(R.layout.layout_new_work_log, null)
+        ibChooseDate = view.findViewById(R.id.ib_choose_date)
+        ibChooseTime = view.findViewById(R.id.ib_choose_time)
 
-            (view.findViewById(R.id.ib_choose_date) as ImageButton).setOnClickListener(chooseDate())
-            (view.findViewById(R.id.ib_choose_time) as ImageButton).setOnClickListener(chooseTime())
-            tvDate = view.findViewById(R.id.tv_date)
-            tvTime = view.findViewById(R.id.tv_time)
+        tvDate = view.findViewById(R.id.tv_date)
+        tvTime = view.findViewById(R.id.tv_time)
+        tvTitle = view.findViewById(R.id.tv_title)
 
-            tvDate.text = getDate()
-            tvTime.text = getTime()
+        ibChooseDate.setOnClickListener(chooseDate())
+        ibChooseTime.setOnClickListener(chooseTime())
 
-            val builder = AlertDialog.Builder(context!!)
-            builder.setView(view)
-            builder.setPositiveButton("Create") { _, _ ->
-                registerFirstIn(tvDate.text.toString(), tvTime.text.toString())
+        tvDate.text = getDate()
+        tvTime.text = getTime()
+
+        setOperation(operation)
+
+        val builder = AlertDialog.Builder(context!!)
+        builder.setView(view)
+        builder.setPositiveButton("Save") { _, _ ->
+            saveOperation(operation, workLog, tvDate.text.toString(), tvTime.text.toString())
+        }
+        builder.setNegativeButton("Cancel") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    private fun setOperation(operation: Int) {
+        when (operation) {
+            MORNING_IN -> {
+                tvTitle.text = "Morning In"
+                ibChooseDate.visibility = View.VISIBLE
             }
-            builder.setNegativeButton("Cancel") { dialog, _ ->
-                dialog.dismiss()
+            MORNING_OUT -> {
+                tvTitle.text = "Morning Out"
+                ibChooseDate.visibility = View.INVISIBLE
+
             }
+            AFTERNOON_IN -> {
+                tvTitle.text = "Afternoon In"
+                ibChooseDate.visibility = View.INVISIBLE
+            }
+            AFTERNOON_OUT -> {
+                tvTitle.text = "Afternoon Out"
+                ibChooseDate.visibility = View.INVISIBLE
+            }
+        }
+    }
 
-            val dialog = builder.create()
-            dialog.show()
-
+    private fun saveOperation(operation: Int, workLog: WorkLog?, date: String, time: String) {
+        when (operation) {
+            MORNING_IN -> {
+                registerFirstIn(
+                    WorkLog(
+                        DateUtil.dateStringToLong(date),
+                        DateUtil.timeStringToLong(time, date)
+                    )
+                )
+            }
+            MORNING_OUT -> {
+                workLog!!.firstOut = DateUtil.timeStringToLong(time, date)
+                registerFirstOut(workLog)
+            }
+            AFTERNOON_IN -> {
+                workLog!!.secondIn = DateUtil.timeStringToLong(time, date)
+                registerSecondIn(workLog)
+            }
+            AFTERNOON_OUT -> {
+                workLog!!.secondOut = DateUtil.timeStringToLong(time, date)
+                registerSecondOut(workLog)
+            }
         }
     }
 
@@ -224,8 +295,19 @@ class WorkFragment : Fragment(), Observer<List<WorkLog>>,
         return "$h:$m"
     }
 
-    private fun registerFirstIn(date: String, time: String) {
-        val workLog = WorkLog(DateUtil.dateStringToLong(date), DateUtil.timeStringToLong(time, date))
-        getWorkLogRepository().logFirstIn(workLog)
+    private fun registerFirstIn(workLog: WorkLog?) {
+        getWorkLogRepository().logFirstIn(workLog!!)
+    }
+
+    private fun registerFirstOut(workLog: WorkLog?) {
+        getWorkLogRepository().logFirstOut(workLog!!.firstIn, workLog.firstOut, workLog.id)
+    }
+
+    private fun registerSecondIn(workLog: WorkLog?) {
+        getWorkLogRepository().logSecondIn(workLog!!.firstOut, workLog.secondIn, workLog.id)
+    }
+
+    private fun registerSecondOut(workLog: WorkLog?) {
+        getWorkLogRepository().logSecondOut(workLog!!.secondIn, workLog.secondOut, workLog.id)
     }
 }

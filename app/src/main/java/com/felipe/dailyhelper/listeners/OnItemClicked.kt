@@ -1,8 +1,10 @@
 package com.felipe.dailyhelper.listeners
 
+import com.felipe.dailyhelper.database.entities.WorkLog
+
 interface OnItemClicked {
 
     interface OnWorkLogItemClicked {
-        fun onWorkLogClick(component: Int, id: Int)
+        fun onWorkLogClick(id: Int, workLog: WorkLog)
     }
 }
