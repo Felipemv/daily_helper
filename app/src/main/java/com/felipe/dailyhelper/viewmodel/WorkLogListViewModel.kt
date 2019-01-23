@@ -20,8 +20,8 @@ class WorkLogListViewModel(application: Application) : AndroidViewModel(applicat
         return workLogList
     }
 
-    fun getAllWorkLog() {
-        workLogList.addSource(workLogRepository.findAll()) { workLogs ->
+    private fun getAllWorkLog() {
+        workLogList.addSource(workLogRepository.getUndone()) { workLogs ->
             workLogList.postValue(workLogs)
         }
     }

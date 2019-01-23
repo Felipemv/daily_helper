@@ -68,7 +68,7 @@ class WorkFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        setObserver(WorkLogRepository.getInstance(context!!).findAll())
+        setObserver(WorkLogRepository.getInstance(context!!).getUndone())
     }
 
     private fun initComponents(view: View) {
@@ -113,7 +113,7 @@ class WorkFragment : Fragment() {
             val builder = AlertDialog.Builder(context!!)
             builder.setView(view)
             builder.setPositiveButton("Create") { _, _ ->
-                setObserver(WorkLogRepository.getInstance(context!!).findAll())
+                setObserver(WorkLogRepository.getInstance(context!!).getUndone())
                 registerFirstIn(tvDate.text.toString(), tvTime.text.toString())
             }
             builder.setNegativeButton("Cancel") { dialog, _ ->

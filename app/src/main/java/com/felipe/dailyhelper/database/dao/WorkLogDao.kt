@@ -28,6 +28,12 @@ interface WorkLogDao {
     @Query("SELECT * FROM work_log")
     fun findAll(): LiveData<List<WorkLog>>
 
+    @Query("SELECT * FROM work_log WHERE done = 'false'")
+    fun getUndone(): LiveData<List<WorkLog>>
+
+    @Query("UPDATE work_log SET done = 'true' WHERE id= :id")
+    fun setDone(id: Int): LiveData<List<WorkLog>>
+
     @Update
     fun update(workLog: WorkLog)
 

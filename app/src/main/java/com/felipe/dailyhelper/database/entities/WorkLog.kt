@@ -31,4 +31,6 @@ data class WorkLog(
 
     var total: Long = 0
 
+    var done: Boolean = false
+
 }

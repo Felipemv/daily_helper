@@ -52,6 +52,14 @@ class WorkLogRepository(context: Context) {
         return workLogDao.findAll()
     }
 
+    fun getUndone(): LiveData<List<WorkLog>> {
+        return workLogDao.getUndone()
+    }
+
+    fun setDone(id: Int) {
+        workLogDao.setDone(id)
+    }
+
     fun update(workLog: WorkLog) {
         return workLogDao.update(workLog)
     }
