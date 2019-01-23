@@ -26,7 +26,7 @@ class WorkLogHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         tvSecondOut = itemView.findViewById(R.id.tv_wl_second_out)
         tvTotal = itemView.findViewById(R.id.tv_wl_total)
         tvLunchTime = itemView.findViewById(R.id.tv_wl_lunch)
-        tvEdit = itemView.findViewById(R.id.tv_wl_edit)
-        tvFinish = itemView.findViewById(R.id.tv_wl_finish)
+        tvEdit = itemView.findViewById(R.id.tv_wl_lunch)
+        tvFinish = itemView.findViewById(R.id.tv_wl_lunch)
     }
 }

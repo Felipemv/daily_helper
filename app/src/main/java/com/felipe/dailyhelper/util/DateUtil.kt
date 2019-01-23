@@ -31,7 +31,7 @@ class DateUtil {
         }
 
         fun timeLongToString(time: Long): String {
-            return if (time > 0) timeFormat.format(Date(time - MINUTE_IN_MILLIS)) else ""
+            return if (time > 0) timeFormat.format(Date(time - MINUTE_IN_MILLIS)) else "00:00:00"
         }
     }
 }
