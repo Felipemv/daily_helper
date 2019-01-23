@@ -6,11 +6,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.felipe.dailyhelper.R
 import com.felipe.dailyhelper.adapters.holders.WorkLogHolder
 import com.felipe.dailyhelper.database.entities.WorkLog
+import com.felipe.dailyhelper.fragments.WorkFragment
+import com.felipe.dailyhelper.listeners.OnItemClicked
 import com.felipe.dailyhelper.util.DateUtil
 
-class WorkLogAdapter(workLogs: List<WorkLog>) : RecyclerView.Adapter<WorkLogHolder>() {
+class WorkLogAdapter(workLogs: List<WorkLog>, workLogClickListener: OnItemClicked.OnWorkLogItemClicked) :
+    RecyclerView.Adapter<WorkLogHolder>() {
 
     private var workLogList: List<WorkLog> = workLogs
+    private var listener: OnItemClicked.OnWorkLogItemClicked = workLogClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkLogHolder {
         return WorkLogHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_work_log, parent, false))
@@ -28,6 +32,14 @@ class WorkLogAdapter(workLogs: List<WorkLog>) : RecyclerView.Adapter<WorkLogHold
         holder.tvSecondOut.text = DateUtil.timeLongToString(workLogList[position].secondOut)
         holder.tvTotal.text = DateUtil.timeLongToString(workLogList[position].total)
         holder.tvLunchTime.text = DateUtil.timeLongToString(workLogList[position].lunchTime)
+
+        holder.layoutEdit.setOnClickListener {
+            listener.onWorkLogClick(WorkFragment.BUTTON_EDIT, workLogList[position].id)
+        }
+
+        holder.layoutFinish.setOnClickListener {
+            listener.onWorkLogClick(WorkFragment.BUTTON_FINISH, workLogList[position].id)
+        }
     }
 
     fun updateView(workLogList: List<WorkLog>) {

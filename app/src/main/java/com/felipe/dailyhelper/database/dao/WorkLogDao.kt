@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.felipe.dailyhelper.database.entities.WorkLog
+import java.lang.Boolean.FALSE
 
 @Dao
 interface WorkLogDao {
@@ -28,11 +29,11 @@ interface WorkLogDao {
     @Query("SELECT * FROM work_log")
     fun findAll(): LiveData<List<WorkLog>>
 
-    @Query("SELECT * FROM work_log WHERE done = 'false'")
+    @Query("SELECT * FROM work_log WHERE done = 0")
     fun getUndone(): LiveData<List<WorkLog>>
 
-    @Query("UPDATE work_log SET done = 'true' WHERE id= :id")
-    fun setDone(id: Int): LiveData<List<WorkLog>>
+    @Query("UPDATE work_log SET done = 1 WHERE id= :id")
+    fun setDone(id: Int)
 
     @Update
     fun update(workLog: WorkLog)

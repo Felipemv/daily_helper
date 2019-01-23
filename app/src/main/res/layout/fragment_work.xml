@@ -14,7 +14,9 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/no_work_log_found"
-            android:visibility="gone"/>
+            android:textColor="@color/colorWhite"
+            android:visibility="visible"
+            android:textSize="20sp"/>
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_work_log"

@@ -178,11 +178,11 @@
                     android:layout_marginBottom="8dp">
 
                 <LinearLayout
+                        android:id="@+id/ll_wl_edit"
                         style="@style/RecyclerViewLinkLayout">
 
                     <TextView
                             style="@style/RecyclerViewLinkText"
-                            android:id="@+id/tv_wl_edit"
                             android:text="Edit"/>
 
                     <ImageView
@@ -192,11 +192,11 @@
                 </LinearLayout>
 
                 <LinearLayout
+                        android:id="@+id/ll_wl_finish"
                         style="@style/RecyclerViewLinkLayout">
 
                     <TextView
                             style="@style/RecyclerViewLinkText"
-                            android:id="@+id/tv_wl_finish"
                             android:text="Done"/>
 
                     <ImageView

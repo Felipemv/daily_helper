@@ -1,7 +1,7 @@
 package com.felipe.dailyhelper.adapters.holders
 
 import android.view.View
-import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.felipe.dailyhelper.R
@@ -15,8 +15,8 @@ class WorkLogHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     var tvSecondOut: TextView
     var tvTotal: TextView
     var tvLunchTime: TextView
-    var tvEdit: TextView
-    var tvFinish: TextView
+    var layoutEdit: LinearLayout
+    var layoutFinish: LinearLayout
 
     init {
         tvDate = itemView.findViewById(R.id.tv_wl_date)
@@ -26,7 +26,7 @@ class WorkLogHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         tvSecondOut = itemView.findViewById(R.id.tv_wl_second_out)
         tvTotal = itemView.findViewById(R.id.tv_wl_total)
         tvLunchTime = itemView.findViewById(R.id.tv_wl_lunch)
-        tvEdit = itemView.findViewById(R.id.tv_wl_lunch)
-        tvFinish = itemView.findViewById(R.id.tv_wl_lunch)
+        layoutEdit = itemView.findViewById(R.id.ll_wl_edit)
+        layoutFinish = itemView.findViewById(R.id.ll_wl_finish)
     }
 }
