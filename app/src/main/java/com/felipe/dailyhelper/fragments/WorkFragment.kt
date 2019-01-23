@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.TimePicker
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -58,6 +59,7 @@ class WorkFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_work, container, false)
 
         initComponents(view)
+
         viewModel.getWorkLogList().observe(this, Observer<List<WorkLog>> { workLogs ->
             workLogs?.let {
                 populateWorkLogList(workLogs)
@@ -82,17 +84,16 @@ class WorkFragment : Fragment() {
         recyclerView = view.findViewById(R.id.rv_work_log)
 
         fabNewWorkLog.setOnClickListener(addNewWorkLog())
-
-        val llm = LinearLayoutManager(context)
-        llm.orientation = RecyclerView.VERTICAL
-
-        adapter = WorkLogAdapter(ArrayList())
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = llm
     }
 
     private fun populateWorkLogList(workLogList: List<WorkLog>) {
-        adapter.notifyDataSetChanged()
+        if (recyclerView.adapter == null) {
+            adapter = WorkLogAdapter(workLogList)
+            recyclerView.adapter = adapter
+            recyclerView.layoutManager = LinearLayoutManager(context)
+        } else {
+            adapter.notifyDataSetChanged()
+        }
     }
 
     private fun addNewWorkLog(): View.OnClickListener {
