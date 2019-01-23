@@ -29,4 +29,9 @@ class WorkLogAdapter(workLogs: List<WorkLog>) : RecyclerView.Adapter<WorkLogHold
         holder.tvTotal.text = DateUtil.timeLongToString(workLogList[position].total)
         holder.tvLunchTime.text = DateUtil.timeLongToString(workLogList[position].lunchTime)
     }
+
+    fun updateView(workLogList: List<WorkLog>) {
+        this.workLogList = workLogList
+        notifyDataSetChanged()
+    }
 }

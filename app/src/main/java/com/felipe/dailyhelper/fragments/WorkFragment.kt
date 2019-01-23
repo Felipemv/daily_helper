@@ -14,6 +14,7 @@ import android.widget.TimePicker
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
@@ -27,6 +28,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.felipe.dailyhelper.util.DateUtil
 
 
 class WorkFragment : Fragment() {
@@ -40,12 +42,6 @@ class WorkFragment : Fragment() {
     private lateinit var tvDate: TextView
     private lateinit var tvTime: TextView
     private lateinit var recyclerView: RecyclerView
-
-    private val DATE_FORMAT = "dd/mm/yyyy"
-    private val TIME_FORMAT = "hh:mm:ss"
-    private val TIME_ZONE = Calendar.getInstance().timeZone.rawOffset
-    private val HOUR_IN_MILLIS = 60 * 60 * 1000
-    private val SUMMER_TIME = 1 * HOUR_IN_MILLIS
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,10 +68,7 @@ class WorkFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        val workLogRepository = WorkLogRepository.getInstance(context!!)
-        workLogRepository.findAll().observe(this, Observer { workLogList ->
-            populateWorkLogList(workLogList!!)
-        })
+        setObserver(WorkLogRepository.getInstance(context!!).findAll())
     }
 
     private fun initComponents(view: View) {
@@ -86,13 +79,20 @@ class WorkFragment : Fragment() {
         fabNewWorkLog.setOnClickListener(addNewWorkLog())
     }
 
+    private fun setObserver(list: LiveData<List<WorkLog>>) {
+        list.observe(this, Observer { workLogList ->
+            populateWorkLogList(workLogList!!)
+        })
+    }
+
+
     private fun populateWorkLogList(workLogList: List<WorkLog>) {
         if (recyclerView.adapter == null) {
             adapter = WorkLogAdapter(workLogList)
             recyclerView.adapter = adapter
             recyclerView.layoutManager = LinearLayoutManager(context)
         } else {
-            adapter.notifyDataSetChanged()
+            adapter.updateView(workLogList)
         }
     }
 
@@ -113,6 +113,7 @@ class WorkFragment : Fragment() {
             val builder = AlertDialog.Builder(context!!)
             builder.setView(view)
             builder.setPositiveButton("Create") { _, _ ->
+                setObserver(WorkLogRepository.getInstance(context!!).findAll())
                 registerFirstIn(tvDate.text.toString(), tvTime.text.toString())
             }
             builder.setNegativeButton("Cancel") { dialog, _ ->
@@ -121,6 +122,7 @@ class WorkFragment : Fragment() {
 
             val dialog = builder.create()
             dialog.show()
+
         }
     }
 
@@ -196,13 +198,7 @@ class WorkFragment : Fragment() {
     }
 
     private fun registerFirstIn(date: String, time: String) {
-        val dateFormat = SimpleDateFormat(DATE_FORMAT, Locale.forLanguageTag("pt-br"))
-        val timeFormat = SimpleDateFormat(TIME_FORMAT, Locale.forLanguageTag("pt-br"))
-
-        val d = dateFormat.parse(date).time + TIME_ZONE + SUMMER_TIME
-        val t = timeFormat.parse("$time:00").time + d - HOUR_IN_MILLIS
-
-        val workLog = WorkLog(d, t)
+        val workLog = WorkLog(DateUtil.dateStringToLong(date), DateUtil.timeStringToLong(time, date))
         WorkLogRepository.getInstance(context!!).logFirstIn(workLog)
     }
 }
