@@ -3,13 +3,20 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context=".fragments.HistoryFragment">
+             tools:context=".fragments.HistoryFragment"
+             android:background="@color/colorPrimary">
 
     <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Fragment History"
+            android:text="@string/no_work_log_found"
             android:layout_gravity="center"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:visibility="gone"/>
 
+    <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    </androidx.recyclerview.widget.RecyclerView>
 </FrameLayout>

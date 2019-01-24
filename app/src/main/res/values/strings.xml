@@ -46,4 +46,8 @@
     <string name="edit_work_log">Edit Work Log</string>
     <string name="in">In:</string>
     <string name="out">Out:</string>
+    <string name="morning">Morning</string>
+    <string name="afternoon">Afternoon</string>
+    <string name="action_sort_by_the_newest">Sort by the newest</string>
+    <string name="action_sort_by_the_oldest">Sort by the oldest</string>
 </resources>

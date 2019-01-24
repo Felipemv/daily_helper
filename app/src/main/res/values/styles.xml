@@ -8,7 +8,15 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:actionOverflowButtonStyle">@style/OptionMenuIcon</item>
     </style>
+
+    <!-- Styles -->
+    <style name="OptionMenuIcon" parent="Widget.AppCompat.PopupMenu.Overflow">
+        <item name="android:src">@drawable/ic_sort</item>
+        <item name="android:tint">@color/colorWhite</item>
+    </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
