@@ -1,11 +1,13 @@
 package com.felipe.dailyhelper.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.felipe.dailyhelper.R
 import com.felipe.dailyhelper.adapters.holders.WorkLogHolder
 import com.felipe.dailyhelper.database.entities.WorkLog
+import com.felipe.dailyhelper.database.repository.WorkLogRepository
 import com.felipe.dailyhelper.fragments.WorkFragment
 import com.felipe.dailyhelper.listeners.OnItemClicked
 import com.felipe.dailyhelper.util.DateUtil
@@ -41,7 +43,7 @@ class WorkLogAdapter(workLogs: List<WorkLog>, workLogClickListener: OnItemClicke
             listener.onWorkLogClick(WorkFragment.BUTTON_FINISH, workLogList[position])
         }
 
-        holder.layoutLogWork.setOnClickListener{
+        holder.layoutLogWork.setOnClickListener {
             listener.onWorkLogClick(WorkFragment.LAYOUT, workLogList[position])
         }
     }
@@ -49,5 +51,9 @@ class WorkLogAdapter(workLogs: List<WorkLog>, workLogClickListener: OnItemClicke
     fun updateView(workLogList: List<WorkLog>) {
         this.workLogList = workLogList
         notifyDataSetChanged()
+    }
+
+    fun deleteItem(position: Int, context: Context) {
+        WorkLogRepository.getInstance(context).delete(workLogList[position].id)
     }
 }
