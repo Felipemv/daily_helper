@@ -21,7 +21,7 @@
                     android:id="@+id/tv_wl_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Date:"
+                    android:text="@string/date"
                     android:textAlignment="center"
                     android:textSize="24sp"
                     android:layout_marginTop="8dp"/>

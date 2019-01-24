@@ -47,6 +47,18 @@ class WorkFragment : Fragment(), Observer<List<WorkLog>>,
     private lateinit var ibChooseTime: ImageButton
     private lateinit var recyclerView: RecyclerView
 
+    private lateinit var tvEditDate: TextView
+    private lateinit var tvEditMorningIn: TextView
+    private lateinit var tvEditMorningOut: TextView
+    private lateinit var tvEditAfternoonIn: TextView
+    private lateinit var tvEditAfternoonOut: TextView
+
+    private lateinit var ibChooseEditDate: ImageButton
+    private lateinit var ibChooseEditMorningIn: ImageButton
+    private lateinit var ibChooseEditMorningOut: ImageButton
+    private lateinit var ibChooseEditAfternoonIn: ImageButton
+    private lateinit var ibChooseEditAfternoonOut: ImageButton
+
     companion object {
         const val BUTTON_FINISH = 1
         const val BUTTON_EDIT = 2
@@ -103,7 +115,9 @@ class WorkFragment : Fragment(), Observer<List<WorkLog>>,
             BUTTON_FINISH -> {
                 getWorkLogRepository().setDone(workLog.id)
             }
-
+            BUTTON_EDIT -> {
+                setEditLayout(workLog)
+            }
             LAYOUT -> {
                 if (workLog.firstIn == 0L) {
                     Toast.makeText(context!!, "Um erro ocorreu", Toast.LENGTH_SHORT).show()
@@ -150,19 +164,7 @@ class WorkFragment : Fragment(), Observer<List<WorkLog>>,
         val inflater = context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view = inflater.inflate(R.layout.layout_new_work_log, null)
 
-        ibChooseDate = view.findViewById(R.id.ib_choose_date)
-        ibChooseTime = view.findViewById(R.id.ib_choose_time)
-
-        tvDate = view.findViewById(R.id.tv_date)
-        tvTime = view.findViewById(R.id.tv_time)
-        tvTitle = view.findViewById(R.id.tv_title)
-
-        ibChooseDate.setOnClickListener(chooseDate())
-        ibChooseTime.setOnClickListener(chooseTime())
-
-        tvDate.text = DateUtil.getCurrentStringDate()
-        tvTime.text = DateUtil.getCurrentStringTime()
-
+        prepareWorkLogLayout(view)
         setOperation(operation, workLog)
 
         val builder = AlertDialog.Builder(context!!)
@@ -176,6 +178,81 @@ class WorkFragment : Fragment(), Observer<List<WorkLog>>,
 
         val dialog = builder.create()
         dialog.show()
+    }
+
+    private fun prepareWorkLogLayout(view: View) {
+        ibChooseDate = view.findViewById(R.id.ib_choose_date)
+        ibChooseTime = view.findViewById(R.id.ib_choose_time)
+
+        tvDate = view.findViewById(R.id.tv_date)
+        tvTime = view.findViewById(R.id.tv_time)
+        tvTitle = view.findViewById(R.id.tv_title)
+
+        ibChooseDate.setOnClickListener(chooseDate(tvDate))
+        ibChooseTime.setOnClickListener(chooseTime(tvTime))
+
+        tvDate.text = DateUtil.getCurrentStringDate()
+        tvTime.text = DateUtil.getCurrentStringTime()
+
+    }
+
+    private fun setEditLayout(workLog: WorkLog?) {
+        if (workLog != null) {
+            val inflater = context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val view = inflater.inflate(R.layout.layout_edit_work_log, null)
+
+            prepareEditLayout(view, workLog)
+
+            val builder = AlertDialog.Builder(context!!)
+            builder.setView(view)
+            builder.setPositiveButton("Save") { _, _ ->
+                val date = tvEditDate.text.toString()
+                workLog.date = DateUtil.dateStringToLong(date)
+                workLog.firstIn = DateUtil.timeStringToLong(tvEditMorningIn.text.toString(), date)
+                workLog.firstOut = DateUtil.timeStringToLong(tvEditMorningOut.text.toString(), date)
+                workLog.secondIn = DateUtil.timeStringToLong(tvEditAfternoonIn.text.toString(), date)
+                workLog.secondOut = DateUtil.timeStringToLong(tvEditAfternoonOut.text.toString(), date)
+
+                workLog.lunchTime = workLog.secondIn - workLog.firstOut
+                workLog.total = workLog.secondOut - workLog.secondIn + workLog.firstOut - workLog.firstIn
+
+                WorkLogRepository.getInstance(context!!).update(workLog)
+            }
+            builder.setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+
+            val dialog = builder.create()
+            dialog.show()
+        } else {
+            Toast.makeText(context!!, "An error occurred.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun prepareEditLayout(view: View, workLog: WorkLog) {
+        tvEditDate = view.findViewById(R.id.tv_edit_date)
+        tvEditMorningIn = view.findViewById(R.id.tv_edit_morning_in)
+        tvEditMorningOut = view.findViewById(R.id.tv_edit_morning_out)
+        tvEditAfternoonIn = view.findViewById(R.id.tv_edit_afternoon_in)
+        tvEditAfternoonOut = view.findViewById(R.id.tv_edit_afternoon_out)
+
+        tvEditDate.text = DateUtil.dateLongToString(workLog.date)
+        tvEditMorningIn.text = DateUtil.timeLongToString(workLog.firstIn)
+        tvEditMorningOut.text = DateUtil.timeLongToString(workLog.firstOut)
+        tvEditAfternoonIn.text = DateUtil.timeLongToString(workLog.secondIn)
+        tvEditAfternoonOut.text = DateUtil.timeLongToString(workLog.secondOut)
+
+        ibChooseEditDate = view.findViewById(R.id.ib_choose_edit_date)
+        ibChooseEditMorningIn = view.findViewById(R.id.ib_choose_edit_morning_in)
+        ibChooseEditMorningOut = view.findViewById(R.id.ib_choose_edit_morning_out)
+        ibChooseEditAfternoonIn = view.findViewById(R.id.ib_choose_edit_afternoon_in)
+        ibChooseEditAfternoonOut = view.findViewById(R.id.ib_choose_edit_afternoon_out)
+
+        ibChooseEditDate.setOnClickListener(chooseDate(tvEditDate))
+        ibChooseEditMorningIn.setOnClickListener(chooseTime(tvEditMorningIn))
+        ibChooseEditMorningOut.setOnClickListener(chooseTime(tvEditMorningOut))
+        ibChooseEditAfternoonIn.setOnClickListener(chooseTime(tvEditAfternoonIn))
+        ibChooseEditAfternoonOut.setOnClickListener(chooseTime(tvEditAfternoonOut))
     }
 
     private fun askIfItsDone(id: Int) {
@@ -244,7 +321,7 @@ class WorkFragment : Fragment(), Observer<List<WorkLog>>,
         }
     }
 
-    private fun chooseDate(): View.OnClickListener {
+    private fun chooseDate(textView: TextView): View.OnClickListener {
         return View.OnClickListener {
             val c = Calendar.getInstance()
             val year = c.get(Calendar.YEAR)
@@ -252,14 +329,14 @@ class WorkFragment : Fragment(), Observer<List<WorkLog>>,
             val day = c.get(Calendar.DAY_OF_MONTH)
 
             val datePicker = DatePickerDialog(context!!, DatePickerDialog.OnDateSetListener { _, year, month, day ->
-                tvDate.text = getDate(day, month, year)
+                textView.text = getDate(day, month, year)
             }, year, month, day)
 
             datePicker.show()
         }
     }
 
-    private fun chooseTime(): View.OnClickListener {
+    private fun chooseTime(textView: TextView): View.OnClickListener {
         return View.OnClickListener {
             val c = Calendar.getInstance()
             val hour = c.get(Calendar.HOUR_OF_DAY)
@@ -269,7 +346,7 @@ class WorkFragment : Fragment(), Observer<List<WorkLog>>,
                 context!!,
                 TimePickerDialog.OnTimeSetListener { _: TimePicker, hour: Int, minutes: Int ->
                     val text = "$hour:$minutes"
-                    tvTime.text = getTime(hour, minutes)
+                    textView.text = getTime(hour, minutes)
                 },
                 hour,
                 minutes,
