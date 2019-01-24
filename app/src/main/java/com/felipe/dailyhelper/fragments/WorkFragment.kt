@@ -162,7 +162,7 @@ class WorkFragment : Fragment(), Observer<List<WorkLog>>,
         tvDate.text = getDate()
         tvTime.text = getTime()
 
-        setOperation(operation)
+        setOperation(operation, workLog)
 
         val builder = AlertDialog.Builder(context!!)
         builder.setView(view)
@@ -177,7 +177,7 @@ class WorkFragment : Fragment(), Observer<List<WorkLog>>,
         dialog.show()
     }
 
-    private fun setOperation(operation: Int) {
+    private fun setOperation(operation: Int, workLog: WorkLog? = null) {
         when (operation) {
             MORNING_IN -> {
                 tvTitle.text = "Morning In"
@@ -185,15 +185,18 @@ class WorkFragment : Fragment(), Observer<List<WorkLog>>,
             }
             MORNING_OUT -> {
                 tvTitle.text = "Morning Out"
+                tvDate.text = DateUtil.dateLongToString(workLog!!.date)
                 ibChooseDate.visibility = View.INVISIBLE
 
             }
             AFTERNOON_IN -> {
                 tvTitle.text = "Afternoon In"
+                tvDate.text = DateUtil.dateLongToString(workLog!!.date)
                 ibChooseDate.visibility = View.INVISIBLE
             }
             AFTERNOON_OUT -> {
                 tvTitle.text = "Afternoon Out"
+                tvDate.text = DateUtil.dateLongToString(workLog!!.date)
                 ibChooseDate.visibility = View.INVISIBLE
             }
         }
@@ -308,6 +311,6 @@ class WorkFragment : Fragment(), Observer<List<WorkLog>>,
     }
 
     private fun registerSecondOut(workLog: WorkLog?) {
-        getWorkLogRepository().logSecondOut(workLog!!.secondIn, workLog.secondOut, workLog.id)
+        getWorkLogRepository().logSecondOut(workLog!!.secondIn, workLog.secondOut, workLog.id, workLog.total)
     }
 }

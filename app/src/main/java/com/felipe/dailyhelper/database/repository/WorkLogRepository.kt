@@ -40,8 +40,8 @@ class WorkLogRepository(context: Context) {
         workLogDao.logSecondIn(secondIn, secondIn - firstOut, id)
     }
 
-    fun logSecondOut(secondIn: Long, secondOut: Long, id: Int) {
-        workLogDao.logSecondIn(secondIn, secondOut - secondIn, id)
+    fun logSecondOut(secondIn: Long, secondOut: Long, id: Int, total: Long) {
+        workLogDao.logSecondOut(secondIn, total + secondOut - secondIn, id)
     }
 
     fun find(id: Int): WorkLog? {

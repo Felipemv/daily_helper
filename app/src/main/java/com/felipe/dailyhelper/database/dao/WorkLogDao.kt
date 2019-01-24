@@ -6,7 +6,6 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.felipe.dailyhelper.database.entities.WorkLog
-import java.lang.Boolean.FALSE
 
 @Dao
 interface WorkLogDao {
@@ -14,13 +13,13 @@ interface WorkLogDao {
     @Insert
     fun logFirstIn(workLog: WorkLog)
 
-    @Query("UPDATE work_log SET first_out = :firstOut AND total = :total WHERE id = :id")
+    @Query("UPDATE work_log SET first_out = :firstOut, total = :total WHERE id = :id")
     fun logFirstOut(firstOut: Long, total: Long, id: Int)
 
-    @Query("UPDATE work_log SET first_out = :secondIn AND lunch_time = :lunchTime WHERE id = :id")
+    @Query("UPDATE work_log SET second_in = :secondIn, lunch_time = :lunchTime WHERE id = :id")
     fun logSecondIn(secondIn: Long, lunchTime: Long, id: Int)
 
-    @Query("UPDATE work_log SET first_out = :secondOut AND total = :total WHERE id = :id")
+    @Query("UPDATE work_log SET second_out = :secondOut, total = :total WHERE id = :id")
     fun logSecondOut(secondOut: Long, total: Long, id: Int)
 
     @Query("SELECT * FROM work_log WHERE id = :id")
