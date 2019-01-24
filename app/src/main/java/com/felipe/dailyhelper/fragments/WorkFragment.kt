@@ -111,8 +111,10 @@ class WorkFragment : Fragment(), Observer<List<WorkLog>>,
                     setUpWorkLogDialog(MORNING_OUT, workLog)
                 } else if (workLog.secondIn == 0L) {
                     setUpWorkLogDialog(AFTERNOON_IN, workLog)
-                } else {
+                } else if (workLog.secondOut == 0L) {
                     setUpWorkLogDialog(AFTERNOON_OUT, workLog)
+                } else {
+                    askIfItsDone(workLog.id)
                 }
             }
         }
@@ -167,6 +169,22 @@ class WorkFragment : Fragment(), Observer<List<WorkLog>>,
         builder.setView(view)
         builder.setPositiveButton("Save") { _, _ ->
             saveOperation(operation, workLog, tvDate.text.toString(), tvTime.text.toString())
+        }
+        builder.setNegativeButton("Cancel") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    private fun askIfItsDone(id: Int) {
+
+        val builder = AlertDialog.Builder(context!!)
+        builder.setTitle("Are you done?")
+        builder.setMessage("It seems that you have finished this work log. Do you want to confirm it as done?")
+        builder.setPositiveButton("Confirm") { _, _ ->
+            WorkLogRepository.getInstance(context!!).setDone(id)
         }
         builder.setNegativeButton("Cancel") { dialog, _ ->
             dialog.dismiss()
