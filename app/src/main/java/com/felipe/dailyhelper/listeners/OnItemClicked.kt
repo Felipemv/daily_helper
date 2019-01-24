@@ -5,6 +5,10 @@ import com.felipe.dailyhelper.database.entities.WorkLog
 interface OnItemClicked {
 
     interface OnWorkLogItemClicked {
-        fun onWorkLogClick(id: Int, workLog: WorkLog)
+        fun onWorkLogClick(id: Int, history: WorkLog)
+    }
+
+    interface OnHistoryItemClicked {
+        fun onHistoryClick(id: Int, history: WorkLog)
     }
 }

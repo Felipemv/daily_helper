@@ -12,7 +12,7 @@ data class WorkLog(
     @ColumnInfo(name = "first_in")
     var firstIn: Long
 
-) {
+) : Comparable<WorkLog> {
 
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
@@ -32,5 +32,11 @@ data class WorkLog(
     var total: Long = 0
 
     var done: Boolean = false
+
+    override fun compareTo(other: WorkLog): Int {
+        if (this.date < other.date) return -1
+        if (this.date > other.date) return 1
+        return 0
+    }
 
 }
