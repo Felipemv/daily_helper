@@ -25,11 +25,10 @@ import com.felipe.dailyhelper.database.repository.WorkLogRepository
 import com.felipe.dailyhelper.viewmodel.WorkLogListViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.felipe.dailyhelper.listeners.OnItemClicked
 import com.felipe.dailyhelper.util.DateUtil
+import java.util.*
 
 
 class WorkFragment : Fragment(), Observer<List<WorkLog>>,
@@ -159,8 +158,8 @@ class WorkFragment : Fragment(), Observer<List<WorkLog>>,
         ibChooseDate.setOnClickListener(chooseDate())
         ibChooseTime.setOnClickListener(chooseTime())
 
-        tvDate.text = getDate()
-        tvTime.text = getTime()
+        tvDate.text = DateUtil.getCurrentStringDate()
+        tvTime.text = DateUtil.getCurrentStringTime()
 
         setOperation(operation, workLog)
 

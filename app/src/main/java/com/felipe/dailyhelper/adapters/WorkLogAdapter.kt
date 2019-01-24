@@ -30,8 +30,8 @@ class WorkLogAdapter(workLogs: List<WorkLog>, workLogClickListener: OnItemClicke
         holder.tvFirstOut.text = DateUtil.timeLongToString(workLogList[position].firstOut)
         holder.tvSecondIn.text = DateUtil.timeLongToString(workLogList[position].secondIn)
         holder.tvSecondOut.text = DateUtil.timeLongToString(workLogList[position].secondOut)
-        holder.tvTotal.text = DateUtil.timeLongToString(workLogList[position].total)
-        holder.tvLunchTime.text = DateUtil.timeLongToString(workLogList[position].lunchTime)
+        holder.tvTotal.text = DateUtil.calculateTime(workLogList[position].total)
+        holder.tvLunchTime.text = DateUtil.calculateTime(workLogList[position].lunchTime)
 
         holder.layoutEdit.setOnClickListener {
             listener.onWorkLogClick(WorkFragment.BUTTON_EDIT, workLogList[position])
