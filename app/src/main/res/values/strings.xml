@@ -39,7 +39,7 @@
     <string name="work">Work</string>
     <string name="log_work">Log Work</string>
     <string name="history">History</string>
-    <string name="salary">Salary</string>
+    <string name="salary">Salary:</string>
     <string name="no_work_log_found">No work log found.</string>
     <string name="time">Time:</string>
     <string name="date">Date:</string>
@@ -50,4 +50,5 @@
     <string name="afternoon">Afternoon</string>
     <string name="action_sort_by_the_newest">Sort by the newest</string>
     <string name="action_sort_by_the_oldest">Sort by the oldest</string>
+    <string name="total">Total:</string>
 </resources>
