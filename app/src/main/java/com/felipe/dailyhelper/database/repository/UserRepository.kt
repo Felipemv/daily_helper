@@ -24,7 +24,6 @@ class UserRepository(context: Context) {
             }
             return sInstance!!
         }
-
     }
 
     fun insert(user: User) {
