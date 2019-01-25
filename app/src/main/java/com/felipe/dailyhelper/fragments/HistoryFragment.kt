@@ -57,6 +57,21 @@ class HistoryFragment : Fragment(), Observer<List<WorkLog>>, OnItemClicked.OnHis
         inflater.inflate(R.menu.menu_sort, menu)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_sort_old -> {
+                adapter.sortHistory(adapter.SORT_BY_OLDEST)
+                return true
+            }
+
+            R.id.action_sort_new -> {
+                adapter.sortHistory(adapter.SORT_BY_NEWEST)
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     override fun onChanged(t: List<WorkLog>?) {
     }
 

@@ -37,7 +37,11 @@ class DateUtil {
         }
 
         fun timeLongToString(time: Long): String {
-            return if (time > 0) timeFormat.format(Date(time)) else "00:00:00"
+            if (time > 0) {
+                val t = timeFormat.format(Date(time)).split(":")
+                return t[0] + ":" + t[1]
+            }
+            return "00:00"
         }
 
         fun getCurrentTimeInMillis(): Long {
